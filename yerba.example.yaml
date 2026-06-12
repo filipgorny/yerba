@@ -1,30 +1,17 @@
-# yerba app configuration — this is an agent config (see filipgorny/agent).
-# Copy to yerba.yaml and adjust. Run: yerba [config.yaml]
+# yerba app configuration. Copy to yerba.yaml. Run: yerba [config.yaml]
 
-initial_message: ""   # yerba is interactive; the user drives via the TUI
+# Path to the agent config (built via filipgorny/agent).
+agent_config: ./default_agent_config.yaml
 
-language: English
+# Where the session (all stream messages) is persisted.
+session:
+  backend: sqlite          # sqlite | inmemory
+  path: ./yerba-session.db
 
-llm:
-  llm: ollama
-  ollama:
-    url: http://localhost:11434
-    model: qwen3:14b        # tool-trained model recommended for the agent loop
-    options:
-      num_ctx: 8192
-
-plugins:
-  - files
-  - web
-  - reasoning
-
-skills:
-  - file_read
-  - grep
-  - dir_list
-  - web_get
-  - think
-
-memory:
-  backend: sqlite
-  path: ./yerba-memory.db
+# Terminal UI settings.
+ui:
+  # Which LOG subtypes to show in the transcript.
+  log_subtypes:
+    - TOOL_CALL
+    - TOOL_RESULT
+    - ERROR
