@@ -1,0 +1,30 @@
+# yerba app configuration — this is an agent config (see filipgorny/agent).
+# Copy to yerba.yaml and adjust. Run: yerba [config.yaml]
+
+initial_message: ""   # yerba is interactive; the user drives via the TUI
+
+language: English
+
+llm:
+  llm: ollama
+  ollama:
+    url: http://localhost:11434
+    model: qwen3:14b        # tool-trained model recommended for the agent loop
+    options:
+      num_ctx: 8192
+
+plugins:
+  - files
+  - web
+  - reasoning
+
+skills:
+  - file_read
+  - grep
+  - dir_list
+  - web_get
+  - think
+
+memory:
+  backend: sqlite
+  path: ./yerba-memory.db
