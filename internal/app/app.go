@@ -7,14 +7,13 @@ import (
 
 	agentpkg "github.com/filipgorny/agent"
 	session "github.com/filipgorny/agent-session"
-	agentcfg "github.com/filipgorny/agent/config"
 
 	"github.com/filipgorny/yerba/internal/config"
 )
 
 // Build constructs an interactive agent and wraps it in a persisted session.
 func Build(cfg config.Config) (*session.Session, error) {
-	ag, err := agentpkg.NewAgentFrom(agentcfg.YamlFile(cfg.AgentConfig))
+	ag, err := agentpkg.NewAgentFromConfig(cfg.Agent)
 
 	if err != nil {
 		return nil, err

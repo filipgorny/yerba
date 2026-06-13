@@ -5,13 +5,15 @@ import (
 	"fmt"
 	"os"
 
+	agentcfg "github.com/filipgorny/agent/config"
 	"gopkg.in/yaml.v3"
 )
 
 // Config is yerba's configuration.
 type Config struct {
-	// AgentConfig is the path to the agent config (see filipgorny/agent).
-	AgentConfig string `yaml:"agent_config"`
+	// Agent is the embedded agent configuration (see filipgorny/agent). yerba
+	// owns this section directly rather than pointing at a separate file.
+	Agent agentcfg.Config `yaml:"agent"`
 
 	// Session configures where the session is persisted.
 	Session SessionConfig `yaml:"session"`
@@ -46,10 +48,6 @@ func Load(path string) (Config, error) {
 		return Config{}, fmt.Errorf("yerba: parse config: %w", err)
 	}
 
-	if c.AgentConfig == "" {
-		c.AgentConfig = "default_agent_config.yaml"
-	}
-
 	if len(c.UI.LogSubtypes) == 0 {
 		c.UI.LogSubtypes = []string{"TOOL_CALL", "TOOL_RESULT", "ERROR"}
 	}
@@ -59,8 +57,7 @@ func Load(path string) (Config, error) {
 
 func defaults() Config {
 	return Config{
-		AgentConfig: "default_agent_config.yaml",
-		Session:     SessionConfig{Backend: "sqlite", Path: "./yerba-session.db"},
-		UI:          UIConfig{LogSubtypes: []string{"TOOL_CALL", "TOOL_RESULT", "ERROR"}},
+		Session: SessionConfig{Backend: "sqlite", Path: "./yerba-session.db"},
+		UI:      UIConfig{LogSubtypes: []string{"TOOL_CALL", "TOOL_RESULT", "ERROR"}},
 	}
 }

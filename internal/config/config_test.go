@@ -8,7 +8,7 @@ import (
 
 func TestLoadDefaults(t *testing.T) {
 	p := filepath.Join(t.TempDir(), "y.yaml")
-	_ = os.WriteFile(p, []byte("agent_config: ./a.yaml\nsession:\n  backend: inmemory\n"), 0o644)
+	_ = os.WriteFile(p, []byte("agent:\n  language: Polish\nsession:\n  backend: inmemory\n"), 0o644)
 
 	c, err := Load(p)
 
@@ -16,8 +16,8 @@ func TestLoadDefaults(t *testing.T) {
 		t.Fatalf("load: %v", err)
 	}
 
-	if c.AgentConfig != "./a.yaml" {
-		t.Errorf("agent_config = %q", c.AgentConfig)
+	if c.Agent.Language != "Polish" {
+		t.Errorf("agent.language = %q", c.Agent.Language)
 	}
 
 	if c.Session.Backend != "inmemory" {

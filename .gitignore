@@ -1,0 +1,7 @@
+# Build artifacts
+/yerba
+/cmd/yerba/main
+
+# Local runtime files
+/yerba.yaml
+*.db
